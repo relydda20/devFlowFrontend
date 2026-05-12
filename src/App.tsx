@@ -6,6 +6,8 @@ import { Dashboard } from '@/pages/Dashboard'
 import { Docs } from '@/pages/Docs'
 import { Landing } from '@/pages/Landing'
 import { Login } from '@/pages/Login'
+import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
+import { TermsOfService } from '@/pages/TermsOfService'
 import './App.css'
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

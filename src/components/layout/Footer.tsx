@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import type { SVGProps } from "react"
 
 function GithubMark(props: SVGProps<SVGSVGElement>) {
@@ -17,15 +19,14 @@ function Footer() {
           <p className="text-sm text-slate-400">&copy; 2026 DevFlow. All rights reserved.</p>
         </div>
 
-        { /* TODO: Add ToC and Privacy Polocy */ }
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
           <div className="flex items-center gap-4 text-sm">
-            <a className="text-slate-400 transition-colors hover:text-white" href="#privacy">
+            <Link className="text-slate-400 transition-colors hover:text-white" to="/privacy-policy">
               Privacy Policy
-            </a>
-            <a className="text-slate-400 transition-colors hover:text-white" href="#terms">
+            </Link>
+            <Link className="text-slate-400 transition-colors hover:text-white" to="/terms-of-service">
               Terms of Service
-            </a>
+            </Link>
           </div>
           <div className="flex items-center gap-3">
             <a

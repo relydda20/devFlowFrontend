@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -89,13 +89,13 @@ function Login() {
 
           <CardFooter className="block text-center text-xs leading-6 text-slate-500">
             <span>By continuing, you agree to our </span>
-            <button type="button" className="text-[#B3C5FF] hover:underline">
+            <Link to="/terms-of-service" className="text-[#B3C5FF] hover:underline">
               Terms of Service
-            </button>
+            </Link>
             <span> and </span>
-            <button type="button" className="text-[#B3C5FF] hover:underline">
+            <Link to="/privacy-policy" className="text-[#B3C5FF] hover:underline">
               Privacy Policy
-            </button>
+            </Link>
             <span>.</span>
           </CardFooter>
         </Card>
