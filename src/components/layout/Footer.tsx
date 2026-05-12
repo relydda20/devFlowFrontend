@@ -1,4 +1,3 @@
-import { Bird } from "lucide-react"
 import type { SVGProps } from "react"
 
 function GithubMark(props: SVGProps<SVGSVGElement>) {
