@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
@@ -13,18 +13,16 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-function Login() {
+function Register() {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
 
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  const handleRegister = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
     const email = formData.get('email')
 
     if (typeof email === 'string' && email.trim()) {
-      setLoading(true)
       localStorage.setItem('devflow_user', email)
       navigate('/dashboard', { replace: true })
     }
@@ -36,21 +34,21 @@ function Login() {
         <Card className="border-0 bg-transparent shadow-none">
           <CardHeader className="flex flex-col items-center gap-2 pb-4 text-center">
             <CardTitle className="text-2xl leading-tight text-white">
-              Welcome to DevFlow
+              Create an account
             </CardTitle>
             <CardDescription className="max-w-sm text-slate-400">
-              Sign in to access your analytics dashboard and continue your workflow tracking.
+              Enter your email below to create your account and start tracking.
             </CardDescription>
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={handleRegister} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-300">
+                <Label htmlFor="register-email" className="text-slate-300">
                   Email
                 </Label>
                 <Input
-                  id="email"
+                  id="register-email"
                   name="email"
                   type="email"
                   placeholder="name@example.com"
@@ -60,11 +58,11 @@ function Login() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-slate-300">
+                <Label htmlFor="register-password" className="text-slate-300">
                   Password
                 </Label>
                 <Input
-                  id="password"
+                  id="register-password"
                   name="password"
                   type="password"
                   required
@@ -75,19 +73,30 @@ function Login() {
               <Button
                 type="submit"
                 className="w-full bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80"
-                disabled={loading}
               >
-                Sign In
+                Sign Up
               </Button>
             </form>
           </CardContent>
 
-          <CardFooter className="block text-center text-xs leading-6 text-slate-500">
-            <span>Don&apos;t have an account? </span>
-            <Link to="/register" className="text-[#B3C5FF] hover:underline">
-              Sign up
-            </Link>
-            <span>.</span>
+          <CardFooter className="block space-y-2 text-center text-xs leading-6 text-slate-500">
+            <p>
+              By clicking continue, you agree to our{' '}
+              <Link to="/terms-of-service" className="text-[#B3C5FF] hover:underline">
+                Terms of Service
+              </Link>{' '}
+              and{' '}
+              <Link to="/privacy-policy" className="text-[#B3C5FF] hover:underline">
+                Privacy Policy
+              </Link>
+              .
+            </p>
+            <p>
+              Already have an account?{' '}
+              <Link to="/login" className="text-[#B3C5FF] hover:underline">
+                Sign in
+              </Link>
+            </p>
           </CardFooter>
         </Card>
       </section>
@@ -95,4 +104,4 @@ function Login() {
   )
 }
 
-export { Login }
+export { Register }
