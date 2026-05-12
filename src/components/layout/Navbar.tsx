@@ -45,7 +45,7 @@ function Navbar() {
           to="/"
           className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-white"
         >
-          <img src="/public/Logo.svg" alt="" />
+          <img src="/Logo.svg" alt="DevFlow logo" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
