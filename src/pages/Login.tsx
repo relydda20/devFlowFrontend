@@ -48,7 +48,7 @@ function Login() {
 
   const handleMockLogin = () => {
     setLoading(true)
-    localStorage.setItem('mock-auth', 'true')
+    localStorage.setItem('devflow_user', 'engineer@example.com')
     navigate('/dashboard', { replace: true })
   }
 

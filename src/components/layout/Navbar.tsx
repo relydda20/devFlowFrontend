@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LogIn, Menu, X } from "lucide-react";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -11,6 +18,7 @@ const navItems = [
 ];
 
 const loginButtonClass = "bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80 transition-colors";
+const authStorageKey = "devflow_user";
 
 function useScroll() {
   const [scrolled, setScrolled] = useState(false);
@@ -28,8 +36,22 @@ function useScroll() {
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const scrolled = useScroll();
-  const location = useLocation();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUserEmail(localStorage.getItem(authStorageKey));
+  }, [pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem(authStorageKey);
+    setUserEmail(null);
+    setMenuOpen(false);
+    navigate("/");
+  };
 
   return (
     <header
@@ -48,38 +70,67 @@ function Navbar() {
           <img src="/Logo.svg" alt="DevFlow logo" />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
-          {navItems.map((item) => {
-            const active = location.pathname === item.href;
+        {!userEmail && (
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
+            {navItems.map((item) => {
+              const active = pathname === item.href;
 
-            return (
-              <Link
-                key={item.label}
-                to={item.href}
-                className={cn(
-                  "text-sm font-medium transition-colors",
-                  active
-                    ? "text-[#B3C5FF]"
-                    : "text-[#B3C5FF]/70 hover:text-white",
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+              return (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors",
+                    active
+                      ? "text-[#B3C5FF]"
+                      : "text-[#B3C5FF]/70 hover:text-white",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        )}
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button
-            asChild
-            variant="accent"
-            className={loginButtonClass}
-          >
-            <Link to="/login">
-              <LogIn className="mr-2 size-4" />
-              Log in
-            </Link>
-          </Button>
+          {!userEmail ? (
+            <Button
+              asChild
+              variant="accent"
+              className={loginButtonClass}
+            >
+              <Link to="/login">
+                <LogIn className="mr-2 size-4" />
+                Log in
+              </Link>
+            </Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="h-10 gap-3 border border-white/10 bg-white/5 px-3 text-white hover:bg-white/10"
+                >
+                  <Avatar size="sm">
+                    <AvatarFallback className="bg-slate-800 text-[#B3C5FF]">
+                      {userEmail.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="max-w-36 truncate text-sm font-medium">{userEmail}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="w-48 border border-white/10 bg-[#11182A] p-1 text-slate-200"
+              >
+                <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
 
         <Button
@@ -117,16 +168,43 @@ function Navbar() {
         </nav>
 
         <div className="mt-4 flex flex-col gap-2">
-          <Button
-            asChild
-            variant="accent"
-            className={`justify-start ${loginButtonClass}`}
-          >
-            <Link to="/login" onClick={() => setMenuOpen(false)}>
-              <LogIn className="mr-2 size-4" />
-              Log in
-            </Link>
-          </Button>
+          {!userEmail ? (
+            <Button
+              asChild
+              variant="accent"
+              className={`justify-start ${loginButtonClass}`}
+            >
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
+                <LogIn className="mr-2 size-4" />
+                Log in
+              </Link>
+            </Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="h-10 w-full justify-start gap-3 border border-white/10 bg-white/5 px-3 text-white hover:bg-white/10"
+                >
+                  <Avatar size="sm">
+                    <AvatarFallback className="bg-slate-800 text-[#B3C5FF]">
+                      {userEmail.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="truncate text-sm font-medium">{userEmail}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                className="w-48 border border-white/10 bg-[#11182A] p-1 text-slate-200"
+              >
+                <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </header>
