@@ -4,22 +4,22 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/lib/auth-context'
 import { AuthLoading } from './AuthLoading'
 
-type ProtectedRouteProps = {
+type LandingRouteProps = {
   children: ReactNode
 }
 
-function ProtectedRoute({ children }: ProtectedRouteProps) {
+function LandingRoute({ children }: LandingRouteProps) {
   const { isAuthenticated, isLoading } = useAuth()
 
   if (isLoading) {
     return <AuthLoading />
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />
   }
 
   return <>{children}</>
 }
 
-export { ProtectedRoute }
+export { LandingRoute }

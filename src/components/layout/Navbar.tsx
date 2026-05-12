@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/lib/auth-context";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -18,7 +19,6 @@ const navItems = [
 ];
 
 const loginButtonClass = "bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80 transition-colors";
-const authStorageKey = "devflow_user";
 
 function useScroll() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,20 +36,18 @@ function useScroll() {
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
   const scrolled = useScroll();
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const auth = useAuth();
+  const userEmail = user?.email ?? user?.username ?? null;
+  const logoTarget = isAuthenticated ? "/dashboard" : "/";
+  const logoClassName = "inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-white";
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUserEmail(localStorage.getItem(authStorageKey));
-  }, [pathname]);
-
-  const handleLogout = () => {
-    localStorage.removeItem(authStorageKey);
-    setUserEmail(null);
+  const handleLogout = async () => {
     setMenuOpen(false);
+    await auth.logout();
     navigate("/");
   };
 
@@ -63,14 +61,17 @@ function Navbar() {
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-white"
-        >
-          <img src="/Logo.svg" alt="DevFlow logo" />
-        </Link>
+        {authLoading ? (
+          <span className={logoClassName} aria-label="DevFlow">
+            <img src="/Logo.svg" alt="DevFlow logo" />
+          </span>
+        ) : (
+          <Link to={logoTarget} className={logoClassName}>
+            <img src="/Logo.svg" alt="DevFlow logo" />
+          </Link>
+        )}
 
-        {!userEmail && (
+        {!isAuthenticated && (
           <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
             {navItems.map((item) => {
               const active = pathname === item.href;
@@ -94,7 +95,7 @@ function Navbar() {
         )}
 
         <div className="hidden items-center gap-3 md:flex">
-          {!userEmail ? (
+          {!isAuthenticated ? (
             <Button
               asChild
               variant="accent"
@@ -115,10 +116,10 @@ function Navbar() {
                 >
                   <Avatar size="sm">
                     <AvatarFallback className="bg-slate-800 text-[#B3C5FF]">
-                      {userEmail.charAt(0).toUpperCase()}
+                      {(userEmail ?? "?").charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="max-w-36 truncate text-sm font-medium">{userEmail}</span>
+                  <span className="max-w-36 truncate text-sm font-medium">{userEmail ?? "Account"}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -168,7 +169,7 @@ function Navbar() {
         </nav>
 
         <div className="mt-4 flex flex-col gap-2">
-          {!userEmail ? (
+          {!isAuthenticated ? (
             <Button
               asChild
               variant="accent"
@@ -189,10 +190,10 @@ function Navbar() {
                 >
                   <Avatar size="sm">
                     <AvatarFallback className="bg-slate-800 text-[#B3C5FF]">
-                      {userEmail.charAt(0).toUpperCase()}
+                      {(userEmail ?? "?").charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="truncate text-sm font-medium">{userEmail}</span>
+                  <span className="truncate text-sm font-medium">{userEmail ?? "Account"}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
