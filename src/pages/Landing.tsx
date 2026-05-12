@@ -1,4 +1,5 @@
 import { ArrowRight, Activity, ArrowLeftRight, Download, Zap } from 'lucide-react'
+import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -34,6 +35,7 @@ const features = [
 ]
 
 function Landing() {
+  useDocumentTitle('Landing')
   return (
     <>
       <main className="min-h-[calc(100vh-4rem)] w-full bg-[#0E1322] text-slate-300">
