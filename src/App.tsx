@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { ScrollToTop } from '@/components/utils/ScrollToTop'
 import { Dashboard } from '@/pages/Dashboard'
 import { Docs } from '@/pages/Docs'
 import { Landing } from '@/pages/Landing'
@@ -16,6 +17,7 @@ function App() {
     <div className="flex min-h-screen flex-col bg-[#0E1322] text-slate-300">
       <Navbar />
       <div className="flex-1">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/docs" element={<Docs />} />
