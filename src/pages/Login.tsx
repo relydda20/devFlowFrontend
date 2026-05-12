@@ -12,8 +12,10 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 function Login() {
+  useDocumentTitle('Login')
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 

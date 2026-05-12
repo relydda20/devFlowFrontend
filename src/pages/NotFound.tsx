@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 function NotFound() {
   const headingRef = useRef<HTMLHeadingElement | null>(null)
@@ -8,6 +9,8 @@ function NotFound() {
   useEffect(() => {
     if (headingRef.current) headingRef.current.focus()
   }, [])
+
+  useDocumentTitle('Not Found')
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-[#0E1322] px-4 text-center">

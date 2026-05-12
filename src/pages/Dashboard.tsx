@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 const vitalityData = [
   { time: '08:00', vitality: 42 },
@@ -36,6 +37,7 @@ const vitalityData = [
 ]
 
 function Dashboard() {
+  useDocumentTitle('Dashboard')
   return (
     <main className="min-h-screen bg-[#0E1322] pt-6 pb-12 text-slate-300">
       <div className="mx-auto max-w-7xl space-y-6 px-6">

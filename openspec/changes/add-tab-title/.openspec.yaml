@@ -1,0 +1,7 @@
+title: add-tab-title
+name: add-tab-title
+type: enhancement
+date: 2026-05-12
+owner: TBD
+status: proposal
+summary: "Add descriptive browser tab titles for each app page using a small shared hook or route metadata."
