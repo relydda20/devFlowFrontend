@@ -10,7 +10,7 @@ import './App.css'
 function App() {
 
   return (
-    <div className="min-h-screen bg-[#0a0c14] text-white">
+    <div className="min-h-screen bg-[#0E1322] text-slate-300">
       <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
