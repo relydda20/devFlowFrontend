@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Footer } from '@/components/layout/Footer'
 
 const features = [
   {
@@ -18,6 +17,9 @@ const features = [
       'Visualize exactly how much generated code survives refactoring. Identify brittle prompt outputs instantly.',
     icon: Activity,
     iconClassName: 'bg-blue-500/15 text-blue-300',
+    status: 'Stable',
+    statusClassName: 'text-emerald-400',
+    metric: 'Lower churn',
   },
   {
     title: 'Context Switching',
@@ -25,6 +27,9 @@ const features = [
       'Track the cost of tab-hopping between editor, browser, and AI chat windows.',
     icon: ArrowLeftRight,
     iconClassName: 'bg-violet-500/15 text-violet-300',
+    status: 'Monitor',
+    statusClassName: 'text-orange-400',
+    metric: 'Fewer switches',
   },
   {
     title: 'AI Efficiency',
@@ -32,6 +37,9 @@ const features = [
       'Measure the true ROI of your Copilot usage. Compare typing speed against generation acceptance rates.',
     icon: Zap,
     iconClassName: 'bg-emerald-500/15 text-emerald-300',
+    status: 'Healthy',
+    statusClassName: 'text-emerald-400',
+    metric: 'Better ROI',
   },
 ]
 
@@ -52,7 +60,7 @@ function Landing() {
             </p>
 
             <div className="flex flex-col items-center gap-3 pt-2">
-              <Button asChild className="bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80" variant="accent">
+            <Button asChild className="bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80" variant="accent">
                 <a href="#download">
                   <Download className="mr-2 size-4" />
                   Download for VS Code
@@ -115,7 +123,6 @@ function Landing() {
         </section>
       </main>
 
-      <Footer />
     </>
   )
 }
