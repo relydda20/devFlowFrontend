@@ -1,5 +1,5 @@
-import { useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,23 +12,53 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ApiError } from '@/lib/api'
+import { useAuth } from '@/lib/auth-context'
 import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 function Login() {
   useDocumentTitle('Login')
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const auth = useAuth()
+  const passwordRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  const rawRedirect = searchParams.get('redirect')
+  const redirectTarget =
+    rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')
+      ? rawRedirect
+      : '/dashboard'
+
+  useEffect(() => {
+    // One-time cleanup of the previous mocked-auth key.
+    localStorage.removeItem('devflow_user')
+  }, [])
+
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setError(null)
 
     const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
+    const email = String(formData.get('email') ?? '').trim()
+    const password = String(formData.get('password') ?? '')
 
-    if (typeof email === 'string' && email.trim()) {
-      setLoading(true)
-      localStorage.setItem('devflow_user', email)
-      navigate('/dashboard', { replace: true })
+    if (!email || !password) return
+
+    setLoading(true)
+    try {
+      await auth.login(email, password)
+      navigate(redirectTarget, { replace: true })
+    } catch (err) {
+      const message =
+        err instanceof ApiError
+          ? err.message
+          : 'Something went wrong. Please try again.'
+      setError(message)
+      if (passwordRef.current) passwordRef.current.value = ''
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -66,6 +96,7 @@ function Login() {
                   Password
                 </Label>
                 <Input
+                  ref={passwordRef}
                   id="password"
                   name="password"
                   type="password"
@@ -74,12 +105,21 @@ function Login() {
                 />
               </div>
 
+              {error && (
+                <p
+                  role="alert"
+                  className="rounded-md border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-200"
+                >
+                  {error}
+                </p>
+              )}
+
               <Button
                 type="submit"
                 className="w-full bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80"
                 disabled={loading}
               >
-                Sign In
+                {loading ? 'Signing in…' : 'Sign In'}
               </Button>
             </form>
           </CardContent>

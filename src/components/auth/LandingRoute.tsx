@@ -4,11 +4,11 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/lib/auth-context'
 import { AuthLoading } from './AuthLoading'
 
-type PublicRouteProps = {
+type LandingRouteProps = {
   children: ReactNode
 }
 
-function PublicRoute({ children }: PublicRouteProps) {
+function LandingRoute({ children }: LandingRouteProps) {
   const { isAuthenticated, isLoading } = useAuth()
 
   if (isLoading) {
@@ -22,4 +22,4 @@ function PublicRoute({ children }: PublicRouteProps) {
   return <>{children}</>
 }
 
-export { PublicRoute }
+export { LandingRoute }

@@ -1,4 +1,4 @@
-import { type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
@@ -12,21 +12,45 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ApiError } from '@/lib/api'
+import { useAuth } from '@/lib/auth-context'
 import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 function Register() {
   useDocumentTitle('Register')
   const navigate = useNavigate()
+  const auth = useAuth()
+  const passwordRef = useRef<HTMLInputElement>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleRegister = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    localStorage.removeItem('devflow_user')
+  }, [])
+
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setError(null)
 
     const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
+    const email = String(formData.get('email') ?? '').trim()
+    const password = String(formData.get('password') ?? '')
 
-    if (typeof email === 'string' && email.trim()) {
-      localStorage.setItem('devflow_user', email)
+    if (!email || !password) return
+
+    setLoading(true)
+    try {
+      await auth.register(email, password)
       navigate('/dashboard', { replace: true })
+    } catch (err) {
+      const message =
+        err instanceof ApiError
+          ? err.message
+          : 'Something went wrong. Please try again.'
+      setError(message)
+      if (passwordRef.current) passwordRef.current.value = ''
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -64,6 +88,7 @@ function Register() {
                   Password
                 </Label>
                 <Input
+                  ref={passwordRef}
                   id="register-password"
                   name="password"
                   type="password"
@@ -72,11 +97,21 @@ function Register() {
                 />
               </div>
 
+              {error && (
+                <p
+                  role="alert"
+                  className="rounded-md border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-200"
+                >
+                  {error}
+                </p>
+              )}
+
               <Button
                 type="submit"
                 className="w-full bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80"
+                disabled={loading}
               >
-                Sign Up
+                {loading ? 'Creating account…' : 'Sign Up'}
               </Button>
             </form>
           </CardContent>
