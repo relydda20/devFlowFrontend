@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, LogIn, Menu, X } from "lucide-react";
+import { LogIn, Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -119,17 +119,7 @@ function Navbar() {
         <div className="mt-4 flex flex-col gap-2">
           <Button
             asChild
-            variant="ghost"
-            className="justify-start text-white hover:bg-white/10 hover:text-white"
-          >
-            <Link to="/dashboard" onClick={() => setMenuOpen(false)}>
-              <LayoutDashboard className="mr-2 size-4" />
-              Dashboard
-            </Link>
-          </Button>
-          <Button
-            asChild
-            variant="default"
+            variant="accent"
             className={`justify-start ${loginButtonClass}`}
           >
             <Link to="/login" onClick={() => setMenuOpen(false)}>
