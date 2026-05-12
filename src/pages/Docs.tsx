@@ -8,6 +8,7 @@ import {
   SquareStack,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 import {
   Card,
@@ -60,6 +61,7 @@ const sidebarLinks: SidebarLink[] = [
 ]
 
 function Docs() {
+  useDocumentTitle('Docs')
   return (
     <main className="w-full bg-[#0E1322] text-slate-300">
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:px-8">
