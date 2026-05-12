@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: who-goes-to-try
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - [cite_start]host: "https://who-goes-to-try.hackathon.sev-2.com" # Ganti dengan domain dari panitia [cite: 112]
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend-service
+            port:
+              number: 80
