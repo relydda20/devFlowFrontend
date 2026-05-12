@@ -1,0 +1,7 @@
+title: feature-not-found-page
+name: feature-not-found-page
+type: feature
+date: 2026-05-12
+owner: TBD
+status: proposal
+summary: "Add a user-friendly 404 Not Found page and fallback route for the SPA."
