@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: who-goes-to-try-frontend
+  namespace: who-goes-to-try
+  labels:
+    app: who-goes-to-try-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: who-goes-to-try-frontend
+  template:
+    metadata:
+      labels:
+        app: who-goes-to-try-frontend
+    spec:
+      containers:
+        - name: who-goes-to-try-frontend
+          image: DOCKER_USERNAME/who-goes-to-try-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
