@@ -3,10 +3,10 @@ import {
   Bot,
   CheckCircle2,
   RefreshCw,
-  Sparkles,
   TriangleAlert,
 } from 'lucide-react'
 
+import { RecommendationsPanel } from '@/components/dashboard/RecommendationsPanel'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -283,52 +283,7 @@ function Dashboard() {
             </CardFooter>
           </Card>
 
-          {/* AI Insights — Preview (kept per user request, marked as not-yet-wired) */}
-          <Card className="lg:col-span-1 bg-[#161B2B] border-white/5">
-            <CardHeader className="items-center gap-3 pb-3">
-              <div className="flex size-10 items-center justify-center rounded-2xl bg-white/5 text-[#B3C5FF]">
-                <Sparkles className="size-5" />
-              </div>
-              <CardTitle className="text-lg font-semibold text-white">
-                AI Insights
-              </CardTitle>
-              <Badge className="border-[#B3C5FF]/20 bg-[#B3C5FF]/10 text-[#B3C5FF] hover:bg-[#B3C5FF]/10">
-                Preview
-              </Badge>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-md border border-white/5 bg-[#0E1322] p-4">
-                <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-orange-500/10 text-orange-400">
-                    <TriangleAlert className="size-4" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="font-medium text-white">Example insight (placeholder)</p>
-                    <p className="text-sm leading-6 text-slate-300">
-                      When wired up, this card will surface AI suggestions based on your
-                      churn and context-switching patterns. Coming soon.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-3 pb-6">
-              <Button
-                variant="accent"
-                className="w-full bg-white/5 text-white hover:bg-white/10"
-                disabled
-              >
-                View Activity
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
-                disabled
-              >
-                Take a Break
-              </Button>
-            </CardFooter>
-          </Card>
+          <RecommendationsPanel />
         </div>
       </div>
     </main>

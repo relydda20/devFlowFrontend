@@ -9,6 +9,7 @@ import { ScrollToTop } from '@/components/utils/ScrollToTop'
 import { AuthProvider } from '@/lib/auth'
 import { Dashboard } from '@/pages/Dashboard'
 import { Docs } from '@/pages/Docs'
+import { ExtensionPair } from '@/pages/ExtensionPair'
 import { Landing } from '@/pages/Landing'
 import { Login } from '@/pages/Login'
 import { Register } from '@/pages/Register'
@@ -58,6 +59,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/extension/pair"
+            element={
+              <ProtectedRoute>
+                <ExtensionPair />
               </ProtectedRoute>
             }
           />

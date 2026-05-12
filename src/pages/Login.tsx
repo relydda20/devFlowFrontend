@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -19,10 +19,17 @@ import { useDocumentTitle } from '@/lib/useDocumentTitle'
 function Login() {
   useDocumentTitle('Login')
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const auth = useAuth()
   const passwordRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const rawRedirect = searchParams.get('redirect')
+  const redirectTarget =
+    rawRedirect && rawRedirect.startsWith('/') && !rawRedirect.startsWith('//')
+      ? rawRedirect
+      : '/dashboard'
 
   useEffect(() => {
     // One-time cleanup of the previous mocked-auth key.
@@ -42,7 +49,7 @@ function Login() {
     setLoading(true)
     try {
       await auth.login(email, password)
-      navigate('/dashboard', { replace: true })
+      navigate(redirectTarget, { replace: true })
     } catch (err) {
       const message =
         err instanceof ApiError

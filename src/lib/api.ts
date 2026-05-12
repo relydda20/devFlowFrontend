@@ -107,3 +107,7 @@ export async function me(): Promise<User | null> {
 export async function logout(): Promise<void> {
   await request<void>('POST', '/auth/logout')
 }
+
+export async function approvePairing(userCode: string): Promise<{ ok: true }> {
+  return request<{ ok: true }>('POST', `/auth/pairings/${encodeURIComponent(userCode)}/approve`)
+}
