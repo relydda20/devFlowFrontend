@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -17,9 +16,6 @@ const features = [
       'Visualize exactly how much generated code survives refactoring. Identify brittle prompt outputs instantly.',
     icon: Activity,
     iconClassName: 'bg-blue-500/15 text-blue-300',
-    status: 'Stable',
-    statusClassName: 'text-emerald-400',
-    metric: 'Lower churn',
   },
   {
     title: 'Context Switching',
@@ -27,9 +23,6 @@ const features = [
       'Track the cost of tab-hopping between editor, browser, and AI chat windows.',
     icon: ArrowLeftRight,
     iconClassName: 'bg-violet-500/15 text-violet-300',
-    status: 'Monitor',
-    statusClassName: 'text-orange-400',
-    metric: 'Fewer switches',
   },
   {
     title: 'AI Efficiency',
@@ -37,9 +30,6 @@ const features = [
       'Measure the true ROI of your Copilot usage. Compare typing speed against generation acceptance rates.',
     icon: Zap,
     iconClassName: 'bg-emerald-500/15 text-emerald-300',
-    status: 'Healthy',
-    statusClassName: 'text-emerald-400',
-    metric: 'Better ROI',
   },
 ]
 
@@ -90,13 +80,9 @@ function Landing() {
                       <CardTitle className="text-lg">{feature.title}</CardTitle>
                     </div>
                   </CardHeader>
-                  <CardContent className="pb-0">
+                  <CardContent className="pb-6">
                     <CardDescription>{feature.description}</CardDescription>
                   </CardContent>
-                  <CardFooter className="flex justify-between font-mono text-xs">
-                    <span className={feature.statusClassName}>{feature.status}</span>
-                    <span className="text-slate-500">{feature.metric}</span>
-                  </CardFooter>
                 </Card>
               )
             })}
