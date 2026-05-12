@@ -12,6 +12,7 @@ import { Login } from '@/pages/Login'
 import { Register } from '@/pages/Register'
 import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
 import { TermsOfService } from '@/pages/TermsOfService'
+import { NotFound } from '@/pages/NotFound'
 import './App.css'
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       <Footer />
