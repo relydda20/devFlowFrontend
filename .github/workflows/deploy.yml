@@ -38,6 +38,8 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
             ${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
 
       # ── 3. Deploy ke Kubernetes ───────────────────────────────
       - name: Setup kubectl
@@ -56,7 +58,7 @@ jobs:
         run: |
           kubectl apply -f k8s/deployment.yaml --validate=false
           kubectl apply -f k8s/service.yaml --validate=false
-          kubectl apply -f k8s/combined_ingress.yaml --validate=false
+          kubectl apply -f k8s/ingress.yaml --validate=false
 
       - name: Update image to latest build
         run: |
