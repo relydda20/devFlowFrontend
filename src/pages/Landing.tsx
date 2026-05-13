@@ -1,4 +1,4 @@
-import { ArrowRight, Activity, ArrowLeftRight, Download, Zap } from 'lucide-react'
+import { Activity, ArrowLeftRight, Download, Zap } from 'lucide-react'
 import { useDocumentTitle } from '@/lib/useDocumentTitle'
 
 import { Button } from '@/components/ui/button'
@@ -53,13 +53,14 @@ function Landing() {
 
             <div className="flex flex-col items-center gap-3 pt-2">
             <Button asChild className="bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80" variant="accent">
-                <a href="#download">
+                <a href="/devvital-ai-telemetry-extension-0.0.1.vsix" download>
                   <Download className="mr-2 size-4" />
                   Download for VS Code
                 </a>
               </Button>
               <p className="text-xs font-mono text-slate-500">
-                Requires VS Code 1.80+ &bull; Free for individual use
+                Requires VS Code 1.80+ &bull; Free for individual use &bull; Install via{' '}
+                <span className="text-slate-400">Extensions: Install from VSIX&hellip;</span>
               </p>
             </div>
           </div>
@@ -102,9 +103,9 @@ function Landing() {
               </h2>
             </div>
             <Button asChild className="bg-[#B3C5FF] text-[#0E1322] hover:bg-[#B3C5FF]/80" variant="accent">
-              <a href="/login"> { /* Change to actual link later */ }
-                <ArrowRight className="mr-2 size-4" />
-                Get started
+              <a href="/devvital-ai-telemetry-extension-0.0.1.vsix" download>
+                <Download className="mr-2 size-4" />
+                Download .vsix
               </a>
             </Button>
           </div>
