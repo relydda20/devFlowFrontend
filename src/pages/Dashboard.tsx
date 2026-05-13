@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Bot,
   CheckCircle2,
@@ -85,6 +85,32 @@ function Dashboard() {
   const weekSwitching = useMetric(fetchWeekSwitching)
   const todaySwitching = useMetric(fetchTodaySwitching)
   const todayChurn = useMetric(fetchTodayChurn)
+
+  // Auto-refresh every 60s to match the backend ETL cadence. Refetch identities are
+  // unstable across renders, so we route through a ref to avoid tearing down the timer
+  // every render.
+  const refetchersRef = useRef({
+    weekChurn: weekChurn.refetch,
+    weekSwitching: weekSwitching.refetch,
+    todaySwitching: todaySwitching.refetch,
+    todayChurn: todayChurn.refetch,
+  })
+  refetchersRef.current = {
+    weekChurn: weekChurn.refetch,
+    weekSwitching: weekSwitching.refetch,
+    todaySwitching: todaySwitching.refetch,
+    todayChurn: todayChurn.refetch,
+  }
+  useEffect(() => {
+    const id = setInterval(() => {
+      const r = refetchersRef.current
+      r.weekChurn()
+      r.weekSwitching()
+      r.todaySwitching()
+      r.todayChurn()
+    }, 60_000)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <main className="min-h-screen bg-[#0E1322] pt-6 pb-12 text-slate-300">
@@ -285,7 +311,7 @@ function Dashboard() {
             </CardContent>
             <CardFooter>
               <p className="text-xs text-slate-500">
-                Aggregated from telemetry events; refreshes every ~5 minutes server-side.
+                Aggregated from telemetry events; refreshes every ~1 minute server-side.
               </p>
             </CardFooter>
           </Card>
