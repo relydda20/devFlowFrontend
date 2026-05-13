@@ -1,17 +1,17 @@
 # Spec — Add Tab Titles
 
 ## Title mapping
-- `/` → `Landing — DevFlow`
-- `/docs` → `Docs — DevFlow`
-- `/login` → `Login — DevFlow`
-- `/register` → `Register — DevFlow`
-- `/privacy-policy` → `Privacy Policy — DevFlow`
-- `/terms-of-service` → `Terms of Service — DevFlow`
-- `/dashboard` → `Dashboard — DevFlow`
-- `*` → `Not Found — DevFlow`
+- `/` → `DevFlow | Landing`
+- `/docs` → `DevFlow | Docs`
+- `/login` → `DevFlow | Login`
+- `/register` → `DevFlow | Register`
+- `/privacy-policy` → `DevFlow | Privacy Policy`
+- `/terms-of-service` → `DevFlow | Terms of Service`
+- `/dashboard` → `DevFlow | Dashboard`
+- `*` → `DevFlow | Not Found`
 
 ## Hook behavior
-- API: `useDocumentTitle(title?: string, options?: { suffix?: string })`
+- API: `useDocumentTitle(title?: string, options?: { prefix?: string, separator?: string })`
 - If `title` is falsy, use default `DevFlow` (or `options.defaultTitle` if provided).
 - When called, runs a `useEffect` to set `document.title` (client-only).
 - Should be a no-op on server (guard `typeof document !== 'undefined'`).
