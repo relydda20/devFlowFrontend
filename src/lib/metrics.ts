@@ -2,10 +2,18 @@ import { API_BASE_URL, ApiError } from './api'
 
 export type Grain = 'daily' | 'session'
 
+export type ChurnSeriesPoint = {
+  date: string
+  lines_added: number
+  lines_deleted: number
+  ratio: number | null
+}
+
 export type ChurnResponse = {
   ratio: number | null
   total_lines_added: number
   total_lines_deleted: number
+  series?: ChurnSeriesPoint[]
   definition: string
   from: string
   to: string
@@ -17,10 +25,17 @@ export type TopFile = {
   count: number
 }
 
+export type ContextSwitchingSeriesPoint = {
+  date: string
+  switch_count: number
+  rapid_switch_count: number
+}
+
 export type ContextSwitchingResponse = {
   switch_count: number
   rapid_switch_count: number
   top_files: TopFile[]
+  series?: ContextSwitchingSeriesPoint[]
   definition: string
   from: string
   to: string

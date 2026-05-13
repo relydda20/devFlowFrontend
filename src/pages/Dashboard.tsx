@@ -6,6 +6,7 @@ import {
   TriangleAlert,
 } from 'lucide-react'
 
+import { ActivityOverviewChart } from '@/components/dashboard/ActivityOverviewChart'
 import { RecommendationsPanel } from '@/components/dashboard/RecommendationsPanel'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -251,25 +252,31 @@ function Dashboard() {
               </CardTitle>
               <p className="text-sm text-slate-400">Last 7 days</p>
             </CardHeader>
-            <CardContent className="pb-6">
+            <CardContent className="space-y-6 pb-6">
               {weekSwitching.isLoading || weekChurn.isLoading ? (
-                <div className="h-40 w-full animate-pulse rounded-md bg-white/5" />
+                <div className="h-60 w-full animate-pulse rounded-md bg-white/5" />
               ) : weekSwitching.data && weekChurn.data ? (
-                <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-                  <Stat label="Switches" value={weekSwitching.data.switch_count.toString()} />
-                  <Stat
-                    label="Rapid switches"
-                    value={weekSwitching.data.rapid_switch_count.toString()}
+                <>
+                  <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+                    <Stat label="Switches" value={weekSwitching.data.switch_count.toString()} />
+                    <Stat
+                      label="Rapid switches"
+                      value={weekSwitching.data.rapid_switch_count.toString()}
+                    />
+                    <Stat
+                      label="Lines written"
+                      value={weekChurn.data.total_lines_added.toString()}
+                    />
+                    <Stat
+                      label="Lines deleted"
+                      value={weekChurn.data.total_lines_deleted.toString()}
+                    />
+                  </div>
+                  <ActivityOverviewChart
+                    churnSeries={weekChurn.data.series ?? []}
+                    switchingSeries={weekSwitching.data.series ?? []}
                   />
-                  <Stat
-                    label="Lines written"
-                    value={weekChurn.data.total_lines_added.toString()}
-                  />
-                  <Stat
-                    label="Lines deleted"
-                    value={weekChurn.data.total_lines_deleted.toString()}
-                  />
-                </div>
+                </>
               ) : (
                 <p className="text-sm text-slate-400">
                   We couldn&apos;t load this overview. The metric cards above have details.
